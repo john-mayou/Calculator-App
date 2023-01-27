@@ -1,3 +1,50 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	/* setting 1rem = 10px; */
+	font-size: 62.5%;
+}
+
 body {
-	color: tan;
+	font-size: 1.6rem;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+		sans-serif;
+	padding: 3rem;
+}
+
+#main {
+	padding: 0 15%;
+}
+
+#header {
+	text-align: center;
+}
+
+#calc-input__section {
+	margin: 6rem 0;
+	display: flex;
+	flex-direction: column;
+}
+
+#calculator-btn__box {
+	margin-top: 6rem;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(4, 1fr);
+}
+
+#answer-display__section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#current-answer__header {
+	margin-bottom: 3rem;
 }
