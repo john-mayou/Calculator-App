@@ -1,0 +1,24 @@
+{
+	"name": "weekend-jquery-server-calculator",
+	"version": "1.0.0",
+	"description": "[Project Instructions](./INSTRUCTIONS.md), this line may be removed once you have updated the README.md",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon ./server/server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/john-mayou/weekend-jquery-server-calculator.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/john-mayou/weekend-jquery-server-calculator/issues"
+	},
+	"homepage": "https://github.com/john-mayou/weekend-jquery-server-calculator#readme",
+	"dependencies": {
+		"express": "^4.18.2",
+		"nodemon": "^2.0.20"
+	}
+}
