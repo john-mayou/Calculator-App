@@ -23,28 +23,7 @@ app.post("/expressions", (req, res) => {
 		return numberRegex.test(elem) ? Number(elem) : elem;
 	}); // changing string numbers to numbers
 
-	let answer;
-	let copyExpressionParts = [...expressionParts];
-
-	// finding answer
-	while (copyExpressionParts.length > 1) {
-		let indexToSlice =
-			findHighestOrderOfOperations(copyExpressionParts) - 1;
-		let sliceToEvaluate = copyExpressionParts.slice(
-			indexToSlice,
-			indexToSlice + 3
-		);
-		copyExpressionParts.splice(
-			indexToSlice,
-			3,
-			operateOnTwoArgs(sliceToEvaluate)
-		);
-	}
-	// when done evaluating parts
-	answer = copyExpressionParts[0];
-
-	console.log("Parts: ", expressionParts);
-	console.log("Answer", answer);
+	let answer = calculateExpression([...expressionParts]);
 
 	const newExpressionObj = {
 		expressionParts,
@@ -61,8 +40,42 @@ app.get("/expressions", (req, res) => {
 });
 
 // Helper functions
+function calculateParentheses(array) {
+	if (!array.includes(")")) {
+		return calculateExpression(array);
+	} else {
+	}
+}
+
+function calculateExpression(array) {
+	while (array.length > 1) {
+		const indexToSlice = findHighestOrderOfOperations(array) - 1;
+		const sliceToEvaluate = array.slice(indexToSlice, indexToSlice + 3);
+		array.splice(indexToSlice, 3, operateOnTwoArgs(sliceToEvaluate));
+	}
+	return array[0];
+}
+
+function findParenExpressionIndexes(array) {
+	const indexOfFirstClosingParen = array.indexOf(")");
+	let indexOfMathingOpenParen;
+
+	for (let i = indexOfFirstClosingParen; i >= 0; i--) {
+		if (array[i] === "(") {
+			indexOfMathingOpenParen = i;
+			break;
+		}
+	}
+
+	return {
+		closingParen: indexOfFirstClosingParen,
+		openParen: indexOfMathingOpenParen,
+	};
+}
+
 function findHighestOrderOfOperations(array) {
 	if (array.indexOf("*") !== -1) {
+		// update to find
 		return array.indexOf("*");
 	} else if (array.indexOf("/") !== -1) {
 		return array.indexOf("/");
