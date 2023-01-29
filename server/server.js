@@ -23,7 +23,8 @@ app.post("/expressions", (req, res) => {
 		return numberRegex.test(elem) ? Number(elem) : elem;
 	}); // changing string numbers to numbers
 
-	let answer = calculateExpression([...expressionParts]);
+	// let answer = calculateExpression([...expressionParts]);
+	let answer = calculateParentheses([...expressionParts]);
 
 	const newExpressionObj = {
 		expressionParts,
@@ -44,6 +45,19 @@ function calculateParentheses(array) {
 	if (!array.includes(")")) {
 		return calculateExpression(array);
 	} else {
+		const { closeParen, openParen } = findParenExpressionIndexes(array);
+		let expressionWithParen = array.slice(openParen, closeParen + 1);
+		const expressionNoParen = expressionWithParen.filter((elem) => {
+			return elem !== "(" && elem !== ")";
+		});
+		console.log(expressionNoParen);
+		const numItemsToRemove = closeParen - openParen + 1;
+		const newArray = array.splice(
+			openParen,
+			numItemsToRemove,
+			calculateExpression(expressionNoParen)
+		);
+		return calculateParentheses(array);
 	}
 }
 
@@ -68,20 +82,20 @@ function findParenExpressionIndexes(array) {
 	}
 
 	return {
-		closingParen: indexOfFirstClosingParen,
+		closeParen: indexOfFirstClosingParen,
 		openParen: indexOfMathingOpenParen,
 	};
 }
 
 function findHighestOrderOfOperations(array) {
-	if (array.indexOf("*") !== -1) {
+	if (array.includes("*")) {
 		// update to find
 		return array.indexOf("*");
-	} else if (array.indexOf("/") !== -1) {
+	} else if (array.includes("/")) {
 		return array.indexOf("/");
-	} else if (array.indexOf("+") !== -1) {
+	} else if (array.includes("+")) {
 		return array.indexOf("+");
-	} else if (array.indexOf("-") !== -1) {
+	} else if (array.includes("-")) {
 		return array.indexOf("-");
 	} else {
 		console.log("Error finding order of operations");

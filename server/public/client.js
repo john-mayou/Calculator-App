@@ -25,9 +25,10 @@ function handleEqualsSubmitButton() {
 	// testing if the input is valid: TODO
 
 	// if valid, break it up into parts
-	let mathPartsRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/]/g;
+	let mathPartsRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)]/g;
 	let expressionParts = $("#expression-input").val().match(mathPartsRegex);
 
+	console.log(expressionParts);
 	$.ajax({
 		url: "/expressions",
 		method: "POST",
