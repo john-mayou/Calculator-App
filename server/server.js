@@ -10,16 +10,7 @@ const isValidExpression = require("./Modules/validate");
 const calculate = require("./Modules/calculate");
 
 // State
-let calculationsArray = [
-	{
-		expressionArray: [2, "+", 3],
-		answer: 5,
-	},
-	{
-		expressionArray: [3, "*", 4],
-		answer: 12,
-	},
-];
+let calculationsArray = [];
 
 // Endpoints
 app.post("/expressions", (req, res) => {
