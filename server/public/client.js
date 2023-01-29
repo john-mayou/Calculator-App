@@ -10,6 +10,7 @@ function onReady() {
 		"button:not(#--equals-btn, #--clear-btn)",
 		handleAddValueToInputField
 	);
+	$("#history-clear-btn").on("click", handleClearHistory);
 }
 
 // helper function for adding button value to input field
@@ -50,6 +51,20 @@ function fetchMathExpressions() {
 
 function handleClearInput() {
 	$("#expression-input").val("");
+}
+
+function handleClearHistory() {
+	$.ajax({
+		url: "/delete-expressions",
+		method: "DELETE",
+	})
+		.then((response) => {
+			calculations = response;
+			render();
+		})
+		.catch((error) => {
+			console.error("/delete-expression DELETE Error", error);
+		});
 }
 
 function render() {

@@ -19,10 +19,9 @@ let calculationsArray = [
 // Endpoints
 app.post("/expressions", (req, res) => {
 	const { expressionStr } = req.body;
-	if (!validateExpression(expressionStr)) {
-		console.log("invalid expression");
-	} else {
-		console.log("nice expression");
+	if (!isValidExpression(expressionStr)) {
+		res.sendStatus(400);
+		return;
 	}
 
 	const expressionArray = expressionParse(expressionStr);
@@ -42,9 +41,14 @@ app.get("/expressions", (req, res) => {
 	res.send(calculationsArray);
 });
 
+app.delete("/delete-expressions", (req, res) => {
+	res.status();
+});
+
 // INPUT PARSE AND VALIDATE FUNCTIONS BELOW THIS LINE
+
 function expressionParse(string) {
-	// splitting by either number or operator
+	// finding matches of either number, operator or parenthesis
 	const mathCharRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)\^]/g;
 	const expressionArray = string.match(mathCharRegex);
 
@@ -55,7 +59,8 @@ function expressionParse(string) {
 	});
 }
 
-function validateExpression(string) {
+function isValidExpression(string) {
+	// finding matches of either number, operator or parenthesis
 	const mathCharRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)\^]/g;
 	const expressionArray = string.match(mathCharRegex);
 
@@ -72,44 +77,53 @@ function validateExpression(string) {
 
 function validateMatchingParentheses(string) {
 	let stack = [];
+	// loop through string
 	for (let i = 0; i < string.length; i++) {
-		let char = stack[stack.length - 1];
+		let char = stack[stack.length - 1]; // last item on stack
 
 		if (string[i] === "(") {
 			stack.push(string[i]);
 		} else if (char === "(" && string[i] === ")") {
+			// correct match
 			stack.pop();
 		} else if (char === undefined && string[i] === ")") {
+			// no matching open
 			return false;
 		}
 	}
+	// if all '(' on the stack have been popped (no unclosed parens)
 	return stack.length ? false : true;
 }
 
 // CALCULATE FUNCTION BELOW THIS LINE
 function calculate(array) {
 	if (!array.includes(")")) {
+		// base case, no parens
 		return calculateExpression(array);
 	} else {
 		const { closeParen, openParen } = findParenExpressionIndexes(array);
 		let expressionWithParen = array.slice(openParen, closeParen + 1);
 		const expressionNoParen = expressionWithParen.filter((elem) => {
+			// i.e. [1, '+', 1] now
 			return elem !== "(" && elem !== ")";
 		});
-		const numItemsToRemove = closeParen - openParen + 1;
+		const numItemsToRemove = closeParen - openParen + 1; // how many to splice
 		const newArray = array.splice(
 			openParen,
 			numItemsToRemove,
 			calculateExpression(expressionNoParen)
 		);
-		return calculate(array);
+		return calculate(array); // call itself until no parens left
 	}
 }
 
 function calculateExpression(array) {
 	while (array.length > 1) {
+		// index before highest operation
 		const indexToSlice = findHighestOrderOfOperations(array) - 1;
+		// always evaluate 3 items at a time i.e. 1+1
 		const sliceToEvaluate = array.slice(indexToSlice, indexToSlice + 3);
+		// replace the 3 indexes with the the evaluated value
 		array.splice(indexToSlice, 3, operateOnTwoArgs(sliceToEvaluate));
 	}
 	return array[0];
