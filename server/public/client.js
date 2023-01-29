@@ -4,7 +4,6 @@ let expressionList = [];
 let currentAnswer;
 
 function onReady() {
-	render();
 	$("#--equals-btn").on("click", handleEqualsSubmitButton);
 	$("#--clear-btn").on("click", handleClearInput);
 	$("#calculator-btn__box").on(
@@ -23,12 +22,13 @@ function handleAddValueToInputField() {
 }
 
 function handleEqualsSubmitButton() {
-	// testing if the input is valid
+	// testing if the input is valid: TODO
 
 	// if valid, break it up into parts
-	let mathPartsRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/]/g;
+	let mathPartsRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)]/g;
 	let expressionParts = $("#expression-input").val().match(mathPartsRegex);
 
+	console.log(expressionParts);
 	$.ajax({
 		url: "/expressions",
 		method: "POST",
@@ -46,11 +46,15 @@ function fetchMathExpressions() {
 	$.ajax({
 		url: "/expressions",
 		method: "GET",
-	}).then((response) => {
-		expressionList = response;
-		currentAnswer = response[response.length - 1].answer;
-		render();
-	});
+	})
+		.then((response) => {
+			expressionList = response;
+			currentAnswer = response[response.length - 1].answer;
+			render();
+		})
+		.catch((error) => {
+			console.log("fetch matches not working", error);
+		});
 }
 
 function render() {
@@ -62,4 +66,8 @@ function render() {
             </li>
         `);
 	}
+
+	$("#current-answer__header").text(
+		`${expressionList[expressionList.length - 1].answer}`
+	);
 }
