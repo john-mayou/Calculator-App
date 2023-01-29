@@ -5,43 +5,54 @@ app.use(express.static("server/public"));
 app.use(express.urlencoded({ extended: true }));
 
 // State
-let expressionsList = [
+let calculationsArray = [
 	{
-		expressionParts: ["2", "+", "3"],
+		expressionArray: [2, "+", 3],
 		answer: 5,
 	},
 	{
-		expressionParts: ["3", "*", "4"],
+		expressionArray: [3, "*", 4],
 		answer: 12,
 	},
 ];
 
+// Endpoints
 app.post("/expressions", (req, res) => {
-	let expressionParts = req.body.parts;
-	expressionParts = expressionParts.map((elem) => {
-		let numberRegex = /[0-9]+(\.[0-9]+)?/;
-		return numberRegex.test(elem) ? Number(elem) : elem;
-	}); // changing string numbers to numbers
-
-	// let answer = calculateExpression([...expressionParts]);
-	let answer = calculateParentheses([...expressionParts]);
+	const { expressionStr } = req.body;
+	const expressionArray = expressionParse(expressionStr);
+	const answer = calculate([...expressionArray]);
 
 	const newExpressionObj = {
-		expressionParts,
+		expressionArray,
 		answer,
 	};
 
-	expressionsList.push(newExpressionObj);
+	calculationsArray.push(newExpressionObj);
 	res.sendStatus(201);
 });
 
 app.get("/expressions", (req, res) => {
-	res.send(expressionsList);
-	res.sendStatus(200);
+	res.status(200);
+	res.send(calculationsArray);
 });
 
+// INPUT PARSE AND VALIDATE FUNCTIONS BELOW THIS LINE
+function expressionParse(string) {
+	// splitting by either number or operator
+	const mathCharRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)\^]/g;
+	const expressionArray = string.match(mathCharRegex);
+
+	// changing all string numbers ('3') to number types (3)
+	const numberRegex = /[0-9]+(\.[0-9]+)?/;
+	return expressionArray.map((elem) => {
+		return numberRegex.test(elem) ? Number(elem) : elem;
+	});
+}
+
+function validateExpression(string) {}
+
 // CALCULATE FUNCTION BELOW THIS LINE
-function calculateParentheses(array) {
+function calculate(array) {
 	if (!array.includes(")")) {
 		return calculateExpression(array);
 	} else {
@@ -57,7 +68,7 @@ function calculateParentheses(array) {
 			numItemsToRemove,
 			calculateExpression(expressionNoParen)
 		);
-		return calculateParentheses(array);
+		return calculate(array);
 	}
 }
 
