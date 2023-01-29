@@ -8,7 +8,7 @@ function onReady() {
 	$("#--clear-btn").on("click", handleClearInput);
 	$("#calculator-btn__box").on(
 		"click",
-		"button:not(#--equals-btn)",
+		"button:not(#--equals-btn, #--clear-btn)",
 		handleAddValueToInputField
 	);
 }
