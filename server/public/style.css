@@ -51,8 +51,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
-	align-items: flex-end;
-	margin-right: 1rem;
+	align-items: flex-start;
+	margin-left: 1rem;
 }
 
 #current-answer__header {
@@ -64,7 +64,7 @@ body {
 	color: #fff;
 	border: none;
 	background-color: black;
-	direction: rtl;
+	/* direction: rtl; */
 	font-size: 2rem;
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
 		sans-serif;
