@@ -40,7 +40,7 @@ app.get("/expressions", (req, res) => {
 	res.sendStatus(200);
 });
 
-// Helper functions
+// CALCULATE FUNCTION BELOW THIS LINE
 function calculateParentheses(array) {
 	if (!array.includes(")")) {
 		return calculateExpression(array);
@@ -88,8 +88,9 @@ function findParenExpressionIndexes(array) {
 }
 
 function findHighestOrderOfOperations(array) {
-	if (array.includes("*")) {
-		// update to find
+	if (array.includes("^")) {
+		return array.indexOf("^");
+	} else if (array.includes("*")) {
 		return array.indexOf("*");
 	} else if (array.includes("/")) {
 		return array.indexOf("/");
@@ -116,6 +117,8 @@ function operateOnTwoArgs(array) {
 			return arg1 + arg2;
 		case "-":
 			return arg1 - arg2;
+		case "^":
+			return arg1 ** arg2;
 		default:
 			console.log("Error operating on two args");
 	}
