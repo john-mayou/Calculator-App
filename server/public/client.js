@@ -59,7 +59,7 @@ function handleClearHistory() {
 		method: "DELETE",
 	})
 		.then((response) => {
-			calculations = response;
+			calculationsArray = response;
 			render();
 		})
 		.catch((error) => {

@@ -47,7 +47,9 @@ app.get("/expressions", (req, res) => {
 });
 
 app.delete("/delete-expressions", (req, res) => {
-	res.status();
+	res.status(204);
+	calculationsArray.length = 0;
+	res.send(calculationsArray);
 });
 
 // Listen
