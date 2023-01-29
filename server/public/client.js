@@ -68,14 +68,16 @@ function handleClearHistory() {
 }
 
 function render() {
-	$("#prev-answers__list").empty();
+	$("#prev-answers__tbody").empty();
 	for (let calculation of calculationsArray) {
-		$("#prev-answers__list").append(`
-            <li>
-				<span>${calculation.expressionArray.join(" ")}</span>
-                <span>=</span>
-				<span>${calculation.answer}</span>
-            </li>
+		$("#prev-answers__tbody").append(`
+		<tr>
+            <td class='expression-td'>${calculation.expressionArray.join(
+				" "
+			)}</td>
+			<td class='equals-td'>=</td>
+			<td class='answer-td'>${calculation.answer}</td>
+		</tr>
         `);
 	}
 
