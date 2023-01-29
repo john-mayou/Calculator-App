@@ -51,6 +51,7 @@ function fetchMathExpressions() {
 
 function handleClearInput() {
 	$("#expression-input").val("");
+	$("#current-answer__header").text("");
 }
 
 function handleClearHistory() {
