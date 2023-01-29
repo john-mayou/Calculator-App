@@ -1,7 +1,6 @@
 $(document).ready(onReady);
 
-let expressionList = [];
-let currentAnswer;
+let calculationsArray = [];
 
 function onReady() {
 	$("#--equals-btn").on("click", handleEqualsSubmitButton);
@@ -22,23 +21,16 @@ function handleAddValueToInputField() {
 }
 
 function handleEqualsSubmitButton() {
-	// testing if the input is valid: TODO
-
-	// if valid, break it up into parts
-	let mathPartsRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)\^]/g;
-	let expressionParts = $("#expression-input").val().match(mathPartsRegex);
-
-	console.log(expressionParts);
 	$.ajax({
 		url: "/expressions",
 		method: "POST",
-		data: { parts: expressionParts },
+		data: { expressionStr: $("#expression-input").val() },
 	})
 		.then((response) => {
 			fetchMathExpressions();
 		})
 		.catch((error) => {
-			console.log("/expressions POST Error", error);
+			console.error("/expressions POST Error", error);
 		});
 }
 
@@ -48,12 +40,11 @@ function fetchMathExpressions() {
 		method: "GET",
 	})
 		.then((response) => {
-			expressionList = response;
-			currentAnswer = response[response.length - 1].answer;
+			calculationsArray = response;
 			render();
 		})
 		.catch((error) => {
-			console.log("/expression GET Error", error);
+			console.error("/expression GET Error", error);
 		});
 }
 
@@ -63,17 +54,17 @@ function handleClearInput() {
 
 function render() {
 	$("#prev-answers__list").empty();
-	for (let statement of expressionList) {
+	for (let calculation of calculationsArray) {
 		$("#prev-answers__list").append(`
             <li>
-				<span>${statement.expressionParts.join(" ")}</span>
+				<span>${calculation.expressionArray.join(" ")}</span>
                 <span>=</span>
-				<span>${statement.answer}</span>
+				<span>${calculation.answer}</span>
             </li>
         `);
 	}
 
 	$("#current-answer__header").text(
-		`${expressionList[expressionList.length - 1].answer}`
+		`${calculationsArray[calculationsArray.length - 1].answer}`
 	);
 }
