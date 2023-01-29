@@ -31,6 +31,7 @@ function handleEqualsSubmitButton() {
 		})
 		.catch((error) => {
 			console.error("/expressions POST Error", error);
+			alert("Invalid Input");
 		});
 }
 
