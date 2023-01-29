@@ -88,6 +88,8 @@ body {
 	border: none;
 	color: #fff;
 	background-color: rgba(0, 0, 0, 0.3);
+	font-weight: 500;
+	font-size: 1.7rem;
 }
 
 #answer-display__section {
