@@ -13,7 +13,6 @@ function onReady() {
 	$("#history-clear-btn").on("click", handleClearHistory);
 }
 
-// helper function for adding button value to input field
 function handleAddValueToInputField() {
 	let idOfbuttonPressed = $(this).attr("id");
 	let buttonValue = $(`#${idOfbuttonPressed}`).text();

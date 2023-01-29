@@ -35,6 +35,8 @@ function findParenExpressionIndexes(array) {
 	const indexOfFirstClosingParen = array.indexOf(")");
 	let indexOfMathingOpenParen;
 
+	// finds the matching open parenthesis working
+	// backwards from the first closed paren
 	for (let i = indexOfFirstClosingParen; i >= 0; i--) {
 		if (array[i] === "(") {
 			indexOfMathingOpenParen = i;
@@ -65,6 +67,7 @@ function findHighestOrderOfOperations(array) {
 }
 
 function operateOnTwoArgs(array) {
+	// parameter is an array of 3 values, [number, operator, number]
 	const arg1 = array[0];
 	const operator = array[1];
 	const arg2 = array[2];
