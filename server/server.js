@@ -19,6 +19,12 @@ let calculationsArray = [
 // Endpoints
 app.post("/expressions", (req, res) => {
 	const { expressionStr } = req.body;
+	if (!validateExpression(expressionStr)) {
+		console.log("invalid expression");
+	} else {
+		console.log("nice expression");
+	}
+
 	const expressionArray = expressionParse(expressionStr);
 	const answer = calculate([...expressionArray]);
 
@@ -49,7 +55,36 @@ function expressionParse(string) {
 	});
 }
 
-function validateExpression(string) {}
+function validateExpression(string) {
+	const mathCharRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)\^]/g;
+	const expressionArray = string.match(mathCharRegex);
+
+	return (
+		validateMatchingParentheses(string) &&
+		!/[+\-*\/\^]{2,}/g.test(string) && // two operators touching
+		expressionArray.length >= 3 && // expression needs 3 parts i.e 1+1
+		expressionArray.join("") === string && // checking for straggling letters/periods
+		expressionArray.filter((s) => /[0-9]+/g.test(s)).length >= 2 && // 2+ numbers
+		expressionArray.filter((s) => /[+\-*\/\^]+/g.test(s)).length >= 1 && // 1+ operator
+		expressionArray.every((s) => s !== " ") // no spaces
+	);
+}
+
+function validateMatchingParentheses(string) {
+	let stack = [];
+	for (let i = 0; i < string.length; i++) {
+		let char = stack[stack.length - 1];
+
+		if (string[i] === "(") {
+			stack.push(string[i]);
+		} else if (char === "(" && string[i] === ")") {
+			stack.pop();
+		} else if (char === undefined && string[i] === ")") {
+			return false;
+		}
+	}
+	return stack.length ? false : true;
+}
 
 // CALCULATE FUNCTION BELOW THIS LINE
 function calculate(array) {
@@ -61,7 +96,6 @@ function calculate(array) {
 		const expressionNoParen = expressionWithParen.filter((elem) => {
 			return elem !== "(" && elem !== ")";
 		});
-		console.log(expressionNoParen);
 		const numItemsToRemove = closeParen - openParen + 1;
 		const newArray = array.splice(
 			openParen,
