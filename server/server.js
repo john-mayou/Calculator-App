@@ -44,6 +44,7 @@ app.delete("/delete-expressions", (req, res) => {
 });
 
 // Listen
+console.log("My name is", process.env.MY_NAME);
 const PORT = 5000;
 app.listen(PORT, () => {
 	console.log("Port Listening", PORT);
