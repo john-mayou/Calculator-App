@@ -1,3 +1,8 @@
+/**
+ * Takes a expression string, breaks it up into an array using regular expressions
+ * @param {string} string // expression
+ * @returns
+ */
 function expressionParse(string) {
 	// finding matches of either number, operator or parenthesis
 	const mathCharRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)\^]/g;
