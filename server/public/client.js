@@ -3,6 +3,8 @@ $(document).ready(onReady);
 let calculationsArray = [];
 
 function onReady() {
+	fetchMathExpressions();
+
 	$("#--equals-btn").on("click", handleEqualsSubmitButton);
 	$("#--clear-btn").on("click", handleClearInput);
 	$("#calculator-btn__box").on(
