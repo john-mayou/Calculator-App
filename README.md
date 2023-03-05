@@ -1,17 +1,34 @@
-# Project Name
+## Project Objective
 
-Server Side Calculator
+The purpose of this project was to create a calculator app that operated on two values.
 
-## Description
+I ended up expanding on this idea, adding:
 
-Looking at the instruction for this project, I ended up expanding on the stretch mode. I wanted to end up solving for the order of operations including parentheses and exponents. Also having nice UX was a priority to give the user a seamless experience.
+-   order of operation
+-   parentheses
+-   exponents
+-   ability to add as many values / operations as the user wants
 
-The way I went about solving for order of operations was first validating the input. The way I went about that was testing the string against numerous regex's (there are comments next to the regex). I also used a stack structure to validate that there were matching parentheses.
+I also wanted to focus on having a seamless UI/UX experience for the user
 
-After validating, I used a recursive function that first checked for parentheses and keeped calling inself until there were no parentheses left. The base case for the function would then solve using a while loop to keep finding the highest order of operations, then cutting the adjacent numbers out and evaluating.
+## Features
 
-There are some limitations to the regex's that I used including: -- Doesnt allow mutiplication through parens 2(3) -- Doesnt allow decimals without 0 before them .1234 -- Cant evaluate negative numbers as the input is invalid if two operators are next to each other 3\*-1
+User has the ability to:
 
-<img width="994" alt="ServerSideCalculator" src="https://user-images.githubusercontent.com/109235738/215362497-c6151a2a-e980-46ea-936b-abccf3683c9f.png">
+-   Input a math expression and calculate it
+-   See a history of expressions
+-   Clear the history of expressions
 
-screenshot located @ ServerSideCalculator.png
+Limitations of my design
+
+-   Doesnt allow mutiplication through parens 2(3)
+-   Doesnt allow decimals without 0 before them .1234
+-   Cant evaluate negative numbers as the input is invalid if two operators are next to each other 3\*-1
+
+## What I Learned
+
+To do my calculations I had to use tons of regular expressions so I took a udemy course on it. I think regex is awesome 😄
+
+Since I wanted to focus on design I spent tons of time learning about CSS and UI/UX design
+
+![Screenshot](ServerSideCalculator.png)
