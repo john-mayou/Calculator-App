@@ -2,6 +2,9 @@ $(document).ready(onReady);
 
 let calculationsArray = [];
 
+/**
+ * Fetches server state on load, holds event listeners
+ */
 function onReady() {
 	fetchMathExpressions();
 
@@ -15,6 +18,9 @@ function onReady() {
 	$("#history-clear-btn").on("click", handleClearHistory);
 }
 
+/**
+ * Finds value of the button click, adds it to the calulator display
+ */
 function handleAddValueToInputField() {
 	let idOfbuttonPressed = $(this).attr("id");
 	let buttonValue = $(`#${idOfbuttonPressed}`).text();
@@ -22,13 +28,16 @@ function handleAddValueToInputField() {
 	$("#expression-input").val(currentExpression + buttonValue);
 }
 
+/**
+ * Sends the server the expression string, re-renders when done
+ */
 function handleEqualsSubmitButton() {
 	$.ajax({
 		url: "/expressions",
 		method: "POST",
 		data: { expressionStr: $("#expression-input").val() },
 	})
-		.then((response) => {
+		.then(() => {
 			fetchMathExpressions();
 		})
 		.catch((error) => {
@@ -37,6 +46,9 @@ function handleEqualsSubmitButton() {
 		});
 }
 
+/**
+ * Fetches the math expressions from the server, then sets local state with the response, re-renders
+ */
 function fetchMathExpressions() {
 	$.ajax({
 		url: "/expressions",
@@ -51,11 +63,17 @@ function fetchMathExpressions() {
 		});
 }
 
+/**
+ * Resets calculator display
+ */
 function handleClearInput() {
 	$("#expression-input").val("");
 	$("#current-answer__header").text("");
 }
 
+/**
+ * Sends a request to the server to clear the data, re-renders the DOM with an empty state
+ */
 function handleClearHistory() {
 	$.ajax({
 		url: "/delete-expressions",
@@ -70,6 +88,9 @@ function handleClearHistory() {
 		});
 }
 
+/**
+ * Clears the expression history table, re-renders with the expressionsArray local state
+ */
 function render() {
 	$("#prev-answers__tbody").empty();
 	for (let calculation of calculationsArray) {
@@ -85,6 +106,6 @@ function render() {
 	}
 
 	$("#current-answer__header").text(
-		`${calculationsArray[calculationsArray.length - 1].answer}`
+		`${calculationsArray[calculationsArray.length - 1].answer}` // grabs the answer from the last calculation of the array
 	);
 }

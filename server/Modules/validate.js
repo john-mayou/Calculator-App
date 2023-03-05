@@ -1,3 +1,8 @@
+/**
+ * Checks using multiple regular expressions if the expression string is able to be calculated
+ * @param {string} string // expression
+ * @returns boolean - if the expression is able to be calculated
+ */
 function isValidExpression(string) {
 	// finding matches of either number, operator or parenthesis
 	const mathCharRegex = /[0-9]+(\.[0-9]+)?|[+\-*\/\(\)\^]/g;
@@ -14,6 +19,12 @@ function isValidExpression(string) {
 	);
 }
 
+/**
+ * Helper function of isValidExpression
+ * Uses a stack data structure to check if there are matching parentheses in the expression
+ * @param {string} string // expression
+ * @returns boolean - if expression has matching parentheses
+ */
 function validateMatchingParentheses(string) {
 	let stack = [];
 	// loop through string

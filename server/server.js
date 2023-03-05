@@ -17,7 +17,7 @@ app.post("/expressions", (req, res) => {
 	const { expressionStr } = req.body;
 	if (!isValidExpression(expressionStr)) {
 		res.sendStatus(400);
-		return;
+		return; // break if not valid expression
 	}
 
 	const expressionArray = expressionParse(expressionStr);
@@ -39,7 +39,7 @@ app.get("/expressions", (req, res) => {
 
 app.delete("/delete-expressions", (req, res) => {
 	res.status(204);
-	calculationsArray.length = 0;
+	calculationsArray.length = 0; // empties array
 	res.send(calculationsArray);
 });
 
