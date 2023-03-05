@@ -4,10 +4,10 @@ The purpose of this project was to create a calculator app that operated on two 
 
 I ended up expanding on this idea, adding:
 
--   order of operation
--   parentheses
--   exponents
--   ability to add as many values / operations as the user wants
+-   Order of operation
+-   Parentheses
+-   Exponents
+-   Ability to add as many values / operations as the user wants
 
 I also wanted to focus on having a seamless UI/UX experience for the user
 
